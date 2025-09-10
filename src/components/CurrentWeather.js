@@ -1,6 +1,6 @@
 import { getcurrentWeather } from '../api';
 import '../styles/components/CurrentWeather.scss';
-
+import Weathericon from './WeatherIcon';
 
 
 function CurrentWeather() {
@@ -56,7 +56,7 @@ function CurrentWeather() {
         <div className="CurrentWeather">
             <div className="temperature">
                 <div className="weather-icon">
-                    <WeatherIcon iconNumber={icon_num} alt={summary} />
+                    <Weathericon iconNumber={icon_num} alt={summary} />
                 </div>
                 <div className="value">
                     <div className="real">{temperature} °C</div>

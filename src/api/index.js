@@ -7,11 +7,11 @@ function getcurrentWeather() {
 }
 
 function getDailyForecast() {
-    return dailyForecast.daily.date;
+    return dailyForecast.daily.data;
 }
 
 function getHourlyForecast() {
-    return hourlyForecast.hourly.date;
+    return hourlyForecast.hourly.data;
 }
 
 export { getcurrentWeather, getDailyForecast, getHourlyForecast };
