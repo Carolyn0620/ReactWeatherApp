@@ -1,88 +1,103 @@
-import { getcurrentWeather } from '../api';
+import { useContext } from 'react';
+import WeatherContext from '../context/weather.context';
+import WeatherIcon from './WeatherIcon';
 import '../styles/components/CurrentWeather.scss';
-import Weathericon from './WeatherIcon';
 
-
-function CurrentWeather() {
-    const data = getcurrentWeather();
+function CurrentWeather({ data }) {
     const {
-        cloud_cover, feels_like, humidity, icon_num, precipitaion, summary, temperature, uv_index, visibility, wind, } = data;
+        cloud_cover,
+        feels_like,
+        humidity,
+        icon_num,
+        precipitation,
+        summary,
+        temperature,
+        uv_index,
+        visibility,
+        wind,
+    } = data;
+    const { units } = useContext(WeatherContext);
 
     const otherInfoWidgets = [
         {
             id: 0,
             icon: 'droplet',
-            name: "Precipitation",
-            value: Math.round(precipitaion),
-            unit: 'in/h',
+            name: 'Precipitation',
+            value: Math.round(precipitation.total),
+            unit: units.precipitation,
         },
         {
             id: 1,
             icon: 'wind',
-            name: "Wind",
+            name: 'Wind',
             value: Math.round(wind.speed),
-            unit: 'mph',
+            unit: units.wind_speed,
         },
         {
             id: 2,
             icon: 'moisture',
-            name: "Humidity",
+            name: 'Humidity',
             value: Math.round(humidity),
+            unit: units.humidity,
         },
         {
             id: 3,
             icon: 'sunglasses',
-            name: "uv_index",
+            name: 'UV index',
             value: Math.round(uv_index),
-            unit: '',
+            unit: units.uv_index,
         },
         {
             id: 4,
             icon: 'clouds-fill',
-            name: "Clouds cover",
+            name: 'Clouds cover',
             value: Math.round(cloud_cover),
-            unit: '%',
+            unit: units.cloud_cover,
         },
         {
             id: 5,
             icon: 'eye',
-            name: "Visibility",
+            name: 'Visibility',
             value: Math.round(visibility),
-            unit: 'mi',
+            unit: units.visibility,
         },
     ];
 
     return (
-        <div className="CurrentWeather">
-            <div className="temperature">
-                <div className="weather-icon">
-                    <Weathericon iconNumber={icon_num} alt={summary} />
+        <div className='CurrentWeather'>
+            <div className='temperature'>
+                <div className='weather-icon'>
+                    <WeatherIcon iconNumber={icon_num} summary={summary} />
                 </div>
-                <div className="value">
-                    <div className="real">{temperature} °C</div>
-                    <div className="feels_like">feels like {feels_like} °C</div>
+                <div className='value'>
+                    <div className='real'>
+                        {Math.round(temperature)} {units.temperature}
+                    </div>
+                    <div className='feels_like'>
+                        feels like {Math.round(feels_like)} {units.temperature}
+                    </div>
                 </div>
                 <div className='summary'>{summary}</div>
             </div>
-            <div className="other-infos">
-                {otherInfoWidgets.map(({ id, icon, name, value, unit }) => (
-                    <div className="widget" key={id}>
-                        <div className="widget-container">
-                            <div className="info">  
-                                <div className="icon">
+            <div className='other-infos'>
+                {otherInfoWidgets.map(({ id, name, icon, value, unit }) => (
+                    <div className='widget' key={id}>
+                        <div className='widget-container'>
+                            <div className='info'>
+                                <div className='icon'>
                                     <i className={`bi bi-${icon}`}></i>
                                 </div>
-                                    <div className="value">
-                                        {value}{unit}
-                                    </div>
+                                <div className='value'>
+                                    {value} {unit}
                                 </div>
-                                <div className="name">{name}</div>       
                             </div>
+                            <div className='name'>{name}</div>
                         </div>
-                    ))}
+                    </div>
+                ))}
             </div>
         </div>
-    )
+    );
 }
 
-export default CurrentWeather
+export default CurrentWeather;
